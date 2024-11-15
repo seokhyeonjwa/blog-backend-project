@@ -9,6 +9,7 @@ import com.hongfolio.hongfolio.service.PostService;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -26,8 +27,20 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+    // 카테고리별 게시물 목록 조회
+    @GetMapping("/category/{category}")
+    public List<Post> getPostsByCategory(@PathVariable String category) {
+        return postService.findPostsByCategory(category);
+    }
+
+    // 게시물 상세 조회
+    @GetMapping("/{category}/{id}")
+    public Optional<Post> getPostDetail(@PathVariable String category, @PathVariable Long id) {
+        return postService.findPostByIdAndCategory(id, category);
+    }
+
     // 게시글 ID로 조회
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public Post getPostById(@PathVariable Long id) {
         return postService.getPostById(id);
     }
